@@ -17,9 +17,12 @@ class RecipeListViewController < UITableViewController
     cell_identifier = "Cell"
     cell = tableView.dequeueReusableCellWithIdentifier(cell_identifier)
     if cell.nil?
-      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, 
+      cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleSubtitle, 
                                                  reuseIdentifier:cell_identifier)
-      cell.textLabel.text = @data_source[indexPath.row].title
+      recipe = @data_source[indexPath.row]
+      cell.textLabel.text = recipe.title
+      cell.imageView.image = recipe.image
+      cell.detailTextLabel.text = "#{recipe.preparation_time} minutes"
       cell
     end
   end
@@ -28,9 +31,15 @@ class RecipeListViewController < UITableViewController
     if editingStyle == UITableViewCellEditingStyleDelete
       @data_source.delete(indexPath.row)
       tableView.deleteRowsAtIndexPaths([indexPath], 
-                                       withRowAnimation:UITableViewRowAnimationFade)
+                                       withRowAnimation:UITableViewRowAnimationMiddle)
     elsif editingStyle == UITableViewCellEditingStyleInsert
     end
+  end
+
+  def tableView(tableView, didSelectRowAtIndexPath:indexPath)
+    detailVC = ViewController.alloc.initWithNibName("ViewController", bundle:nil)
+    detailVC.recipe = @data_source[indexPath.row]
+    presentViewController(detailVC, animated:true, completion:nil)
   end
 end
 

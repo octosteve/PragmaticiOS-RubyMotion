@@ -18,15 +18,16 @@ class RecipesSource < RecipesListDataSource
 
   def recipes
     if @recipes.nil?
-      @recipes = []
-      6.times do |i|
+      @recipes = (1..5).map do |i|
         recipe = Recipe.new
         recipe.directions = "#{i} - Put some stuff in, and the other stuff, then stir"
         recipe.title = "#{i} - One Fine Food"
         recipe.image = UIImage.imageNamed "IMG_1948.jpg"
-        @recipes << recipe
+        recipe.preparation_time = 100
+        recipe
       end
+    else
+      @recipes
     end
-    @recipes
   end
 end
