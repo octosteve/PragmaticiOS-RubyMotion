@@ -1,4 +1,4 @@
-class PRPRecipe
+class Recipe
   attr_accessor :title, :directions, :image
 
   def initialize

@@ -1,5 +1,5 @@
 class RecipeListViewController < UITableViewController
-  attr_accessor :recipes
+  attr_accessor :data_source
   def loadView
     views = NSBundle.mainBundle.loadNibNamed "RecipeViewController", owner:self, options:nil
     self.view = views.first
@@ -10,11 +10,7 @@ class RecipeListViewController < UITableViewController
   end
 
   def tableView(tv, numberOfRowsInSection:section)
-    if @recipes
-      @recipes.count
-    else
-      0
-    end
+    @data_source.recipe_count
   end
 
   def tableView(tableView, cellForRowAtIndexPath:indexPath)
@@ -23,15 +19,16 @@ class RecipeListViewController < UITableViewController
     if cell.nil?
       cell = UITableViewCell.alloc.initWithStyle(UITableViewCellStyleDefault, 
                                                  reuseIdentifier:cell_identifier)
-      cell.textLabel.text = @recipes.objectAtIndex(indexPath.row).title
+      cell.textLabel.text = @data_source[indexPath.row].title
       cell
     end
   end
 
   def tableView(tableView, commitEditingStyle:editingStyle, forRowAtIndexPath:indexPath)
     if editingStyle == UITableViewCellEditingStyleDelete
-    tableView.deleteRowsAtIndexPaths(NSArray.arrayWithObject(indexPath), 
-                                     withRowAnimation:UITableViewRowAnimationFade)
+      @data_source.delete(indexPath.row)
+      tableView.deleteRowsAtIndexPaths([indexPath], 
+                                       withRowAnimation:UITableViewRowAnimationFade)
     elsif editingStyle == UITableViewCellEditingStyleInsert
     end
   end

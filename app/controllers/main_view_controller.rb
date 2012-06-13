@@ -6,8 +6,8 @@ class MainViewController < UIViewController
   end
   
   def viewWillAppear(animated)
-    recipe_title.text = recipe.title
-    directionsView.text = recipe.directions
+    recipe_title.text = @recipe.title
+    directionsView.text = @recipe.directions
     unless recipe.image.nil?
       imageView.image = recipe.image
     end

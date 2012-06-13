@@ -4,5 +4,5 @@ resources/*.nib
 resources/*.momd
 resources/*.storyboardc
 .DS_Store
-.dat*
-.sw*
+*.dat*
+*.sw*
